@@ -1,3 +1,6 @@
+CREATE DATABASE retail_project;
+
+
 CREATE TABLE clientes (
     cliente_id SERIAL PRIMARY KEY,
     nombreVARCHAR (100) NOT NULL, 
@@ -7,6 +10,7 @@ CREATE TABLE clientes (
 CREATE TABLE productos (
     producto_id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
+    categoria VARCHAR(50) NOT NULL,
     precio DECIMAL (10,2) NOT NULL,
     stock INT NOT NULL, 
 
@@ -85,7 +89,7 @@ COMMIT;
 
 UPDATE productos
 SET precio = precio * 1.10
-WHERE precio < 50;
+WHERE categoria = 'Limpieza';
 
 
 -- =====================================================
@@ -93,6 +97,6 @@ WHERE precio < 50;
 -- =====================================================
 
 
-DELETE FROM clientes
-WHERE email = 'prueba@mail.com';
+DELETE FROM ventas 
+WHERE venta_id = 5;
 
