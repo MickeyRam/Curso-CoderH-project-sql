@@ -1,11 +1,16 @@
-CREATE DATABASE retail_project;
+-- =====================================================
+-- 2. CREA TABLAS clientes, productos
+-- Después de crear la base de datos,
+-- conectarse a retail_project antes de ejecutar
+-- las siguientes instrucciones.
+-- =====================================================
 
 
 CREATE TABLE clientes (
     cliente_id SERIAL PRIMARY KEY,
-    nombreVARCHAR (100) NOT NULL, 
+    nombre VARCHAR (100) NOT NULL, 
     email VARCHAR(100) NOT NULL UNIQUE 
-)
+);
 
 CREATE TABLE productos (
     producto_id SERIAL PRIMARY KEY,
@@ -29,7 +34,7 @@ CHECK(stock >= 0)
 
 
 CREATE TABLE ventas (
-     ventas_id SERIAL PRIMARY KEY, 
+     venta_id SERIAL PRIMARY KEY, 
      cliente_id INT NOT NULL, 
      producto_id INT NOT NULL, 
      cantidad INT NOT NULL,
@@ -41,7 +46,7 @@ CREATE TABLE ventas (
 
     CONSTRAINT fk_ventas_productos
         FOREIGN KEY (producto_id)
-        REFERENCES clientes(cliente_id),
+        REFERENCES productos(producto_id),
     
     CONSTRAINT ck_ventas_cantidad
         CHECK (cantidad > 0)
@@ -62,13 +67,13 @@ VALUES
     ('Carlos Sanchez', 'carlos@mail.com'),
     ('Cliente Prueba', 'prueba@mail.com');
 
-INSERT INTO productos(nombre, precio, stock)
+INSERT INTO productos(nombre, categoria, precio, stock)
 VALUES
-    ('Aceite', 35.50, 20),
-    ('Jabon', 18.25, 30),
-    ('Cloro', 22.40, 15),
-    ('Detergente', 45.80, 10),
-    ('Papel higienico', 60.00, 25);
+    ('Aceite', 'abarrotes', 35.50, 20),
+    ('Jabon', 'limpieza', 18.25, 30),
+    ('Cloro', 'limpieza', 22.40, 15),
+    ('Detergente', 'limpieza', 45.80, 10),
+    ('Papel higienico', 'abarrotes',  60.00, 25);
 
 INSERT INTO ventas(cliente_id, producto_id, cantidad, fecha_venta)
 VALUES
@@ -83,13 +88,13 @@ COMMIT;
 
 -- =====================================================
 -- 5. ACTUALIZACIÓN MASIVA DE PRECIOS
--- Incrementar 10 % a los productos con precio menor a 50
+-- Incrementar 10 % a los productos de la categoria Limpieza 
 -- =====================================================
 
 
 UPDATE productos
 SET precio = precio * 1.10
-WHERE categoria = 'Limpieza';
+WHERE categoria = 'limpieza';
 
 
 -- =====================================================
@@ -99,4 +104,6 @@ WHERE categoria = 'Limpieza';
 
 DELETE FROM ventas 
 WHERE venta_id = 5;
+
+
 
